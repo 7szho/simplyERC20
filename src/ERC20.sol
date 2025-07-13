@@ -24,12 +24,7 @@ contract MyERC20 is IERC20 {
      * @param tokenSymbol 代币符号 (例如 "MTK")。
      * @param tokenDecimals 代币小数位数 (通常是 18)。
      */
-    constructor(
-        uint256 initialSupply,
-        string memory tokenName,
-        string memory tokenSymbol,
-        uint8 tokenDecimals
-    ) {
+    constructor(uint256 initialSupply, string memory tokenName, string memory tokenSymbol, uint8 tokenDecimals) {
         name = tokenName;
         symbol = tokenSymbol;
         decimals = tokenDecimals;
@@ -96,11 +91,7 @@ contract MyERC20 is IERC20 {
      * @dev 将 `amount` 数量的代币从 `from` 地址转移到 `to` 地址。
      *      此函数只能由已被 `from` 批准（通过 `approve` 函数）的 `spender` 调用。
      */
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
         // 要求发送方有足够的余额
         require(_balances[from] >= amount, "ERC20: transfer amount exceeds balance");
         // 要求调用者（msg.sender）已被 from 批准有足够的 allowance
@@ -109,7 +100,6 @@ contract MyERC20 is IERC20 {
         require(to != address(0), "ERC20: transfer to the zero address");
         // 要求发送方地址不是零地址 (虽然通常transferFrom时from不是msg.sender，但作为额外检查)
         require(from != address(0), "ERC20: transfer from the zero address");
-
 
         // 减少 from 的余额
         _balances[from] -= amount;

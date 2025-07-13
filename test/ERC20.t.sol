@@ -15,9 +15,9 @@ contract ERC20Test is Test {
 
     // 定义一些测试用的地址
     address public deployer = makeAddr("deployer"); // 合约部署者
-    address public user1 = makeAddr("user1");       // 普通用户 1
-    address public user2 = makeAddr("user2");       // 普通用户 2
-    address public spender = makeAddr("spender");   // 批准者 (spender)
+    address public user1 = makeAddr("user1"); // 普通用户 1
+    address public user2 = makeAddr("user2"); // 普通用户 2
+    address public spender = makeAddr("spender"); // 批准者 (spender)
 
     // 定义常量，例如初始供应量和代币小数位数
     uint256 public constant INITIAL_SUPPLY = 1_000_000 * (10 ** 18); // 1,000,000 个代币，带18位小数
@@ -41,7 +41,7 @@ contract ERC20Test is Test {
     /**
      * @dev 测试代币的名称、符号和小数位数是否正确设置。
      */
-    function test_NameSymbolDecimals() view public {
+    function test_NameSymbolDecimals() public view {
         assertEq(token.name(), "My Test Token", "Name should be 'My Test Token'");
         assertEq(token.symbol(), "MTT", "Symbol should be 'MTT'");
         assertEq(token.decimals(), DECIMALS, "Decimals should be 18");
@@ -50,7 +50,7 @@ contract ERC20Test is Test {
     /**
      * @dev 测试总供应量和初始部署者余额。
      */
-    function test_InitialSupplyAndDeployerBalance() view public {
+    function test_InitialSupplyAndDeployerBalance() public view {
         assertEq(token.totalSupply(), INITIAL_SUPPLY, "Total supply should be initial supply");
         assertEq(token.balanceOf(deployer), INITIAL_SUPPLY, "Deployer should have initial supply");
         assertEq(token.balanceOf(user1), 0, "User1 should have 0 balance initially");
@@ -68,7 +68,9 @@ contract ERC20Test is Test {
         vm.stopPrank();
 
         // 验证余额
-        assertEq(token.balanceOf(deployer), INITIAL_SUPPLY - amountToTransfer, "Deployer balance incorrect after transfer");
+        assertEq(
+            token.balanceOf(deployer), INITIAL_SUPPLY - amountToTransfer, "Deployer balance incorrect after transfer"
+        );
         assertEq(token.balanceOf(user1), amountToTransfer, "User1 balance incorrect after transfer");
     }
 
@@ -127,9 +129,17 @@ contract ERC20Test is Test {
         vm.stopPrank();
 
         // 验证余额和 allowance
-        assertEq(token.balanceOf(deployer), INITIAL_SUPPLY - transferFromAmount, "Deployer balance incorrect after transferFrom");
+        assertEq(
+            token.balanceOf(deployer),
+            INITIAL_SUPPLY - transferFromAmount,
+            "Deployer balance incorrect after transferFrom"
+        );
         assertEq(token.balanceOf(user1), transferFromAmount, "User1 balance incorrect after transferFrom");
-        assertEq(token.allowance(deployer, spender), approvedAmount - transferFromAmount, "Allowance should be reduced correctly");
+        assertEq(
+            token.allowance(deployer, spender),
+            approvedAmount - transferFromAmount,
+            "Allowance should be reduced correctly"
+        );
     }
 
     /**

@@ -8,6 +8,7 @@ import "../src/ERC20.sol";
  * @title MyERC20Script
  * @dev Foundry 部署脚本，用于部署 MyERC20 合约。
  */
+
 contract MyERC20Script is Script {
     // 定义代币参数
     uint256 public constant INITIAL_SUPPLY = 1_000_000 * (10 ** 18); // 1,000,000 个代币
@@ -28,12 +29,7 @@ contract MyERC20Script is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // 部署 MyERC20 合约
-        MyERC20 myERC20 = new MyERC20(
-            INITIAL_SUPPLY,
-            TOKEN_NAME,
-            TOKEN_SYMBOL,
-            TOKEN_DECIMALS
-        );
+        MyERC20 myERC20 = new MyERC20(INITIAL_SUPPLY, TOKEN_NAME, TOKEN_SYMBOL, TOKEN_DECIMALS);
 
         // 停止广播
         vm.stopBroadcast();
